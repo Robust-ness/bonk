@@ -1,4 +1,5 @@
 const Discord = require('discord.js'),
+dotenv = require('dotenv').config(),
 client = new Discord.Client()
 let regex = /<@!(?<gamer>\d*)>/gm
 
@@ -25,4 +26,4 @@ client.on('ready', () => {
   console.log('revved and ready to go')
 })
 
-client.login("ODIzNjY4MTk1NjUwOTYxNDY5.YFkKyA.cMcnULXAqU55nz6NBZsD22tppGY");
+client.login(process.env.BOT_TOKEN);
