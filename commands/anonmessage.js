@@ -1,10 +1,3 @@
-const Discord = require('discord.js')
-// dotenv = require('dotenv').config(),
-// client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }),
-const axios = require('axios').default
-// fs = require('fs'),
-// path = require('path')
-
 module.exports = {
     name: "anonmessage",
     description: "Set a discreet message using BonkBot:tm: as a medium.",

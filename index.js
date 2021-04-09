@@ -6,6 +6,7 @@ fs = require('fs'),
 path = require('path')
 
 let commands = new Discord.Collection();
+let nerdMatch = /geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn/gm
 client.wingsofredemption = []
 
 fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
@@ -58,27 +59,9 @@ client.on('message', async msg => {
   if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || isMentionBonk(msg)) && msg.author.id != "823668195650961469" ) {
     msg.channel.send("BONK")
   }
-
-  // if (msg.content.startsWith("/anonmessage ")) {
-  //   msg.delete()
-  //   let anonmessage = msg.content.slice(13, msg.content.length)
-  //   console.log(msg.author.username)
-  //   msg.channel.send(anonmessage)
-  //   return
-  // }
-  // if (msg.content == "/redditkarma" && !redditkarma) {
-  //   redditkarma = true
-  //   msg.channel.send("Reddit karma enabled gamers 🍆")
-  // } else if (msg.content == "/redditkarma" && redditkarma) {
-  //   redditkarma = false
-  //   msg.channel.send("Fuck you")
-  // }
-  // if (client.wingsofredemption.find(search => search.id == msg.channel.id)) {
-  //   if (client.wingsofredemption.find(search => search.id == msg.channel.id).reddit) {
-  //     msg.react("👍")
-  //     msg.react("👎")
-  //   }
-  // }
+  if (msg.content.toLowerCase().match(nerdMatch)) {
+    msg.channel.send('nerd')
+  }
 });
 
 client.on('messageReactionAdd', async (reaction, user) => {
