@@ -6,7 +6,7 @@ fs = require('fs'),
 path = require('path')
 
 let commands = new Discord.Collection();
-let nerdMatch = /geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn/gm
+let nerdMatch = /geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology/gm
 client.wingsofredemption = []
 
 fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
