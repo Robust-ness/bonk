@@ -6,7 +6,7 @@ fs = require('fs'),
 path = require('path')
 
 let commands = new Discord.Collection();
-let nerdMatch = /geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology/gm
+let nerdMatch = /(?:^|\s)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology)(?:$|\s)/gm
 client.wingsofredemption = []
 
 fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
@@ -75,12 +75,13 @@ client.on('messageReactionAdd', async (reaction, user) => {
 	}
   if (user.id == "823668195650961469")
     return
-  //if (redditkarma)
-    //return
-  const count = reaction.message.reactions.cache.filter(reaction => reaction.users.cache.has(user.id)).filter(reaction => reaction.emoji.name == "👎" || reaction.emoji.name == "👍").array()//.array()[0].emoji;
+  let count = await (await reaction.message.fetch()).reactions.cache.filter(reaction => reaction.emoji.name == "👎" || reaction.emoji.name == "👍").array()
+  //console.log(count)
+  //count = reaction.message.reactions.cache.filter(reaction => reaction.users.cache.has(user.id)).filter(reaction => reaction.emoji.name == "👎" || reaction.emoji.name == "👍").array()
   if (count.length > 1) {
-    
+    console.log('ok')
     for (let i in count) {
+      console.log(count[i])
       if (reaction.emoji.name != count[i].emoji.name) {
         reaction.message.reactions.resolve(count[i].emoji.name).users.remove(user.id);
       }
