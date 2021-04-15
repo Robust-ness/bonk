@@ -140,7 +140,7 @@ client.on('message', async msg => {
           name: wordSalad,
           color: "#" + hexColor.toString(16).toUpperCase()
         }
-      }).then(role => {
+      }).then(async role => {
         await (member.roles.add(role)).then(r => {
           let newRole = new Role({owner: msg.author.id, role: role.name, server: msg.guild.id})
           newRole.save()
