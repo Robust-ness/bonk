@@ -3,11 +3,21 @@ dotenv = require('dotenv').config(),
 client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }),
 axios = require('axios').default,
 fs = require('fs'),
-path = require('path')
+path = require('path'),
+mongoose = require('mongoose')
+
+mongoose.connect('mongodb+srv://user:user@cluster0.ujgb0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+  //console.log(err)
+})
+
+let Role = mongoose.model('Role', {
+  owner: String,
+  role: String,
+  server: String
+})
 
 let commands = new Discord.Collection();
 let nerdMatch = /(?:^|\s)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology)(?:$|\s)/gm
-client.wingsofredemption = []
 
 fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
   const command = require(`./commands/${file}`)
@@ -30,8 +40,6 @@ fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
     console.log(res.statusText)
   })
 })
-
-let redditkarma = false
 
 client.ws.on('INTERACTION_CREATE', async interaction => {
   if (!commands.has(interaction.data.name))
@@ -62,6 +70,91 @@ client.on('message', async msg => {
   if (msg.content.toLowerCase().match(nerdMatch)) {
     msg.channel.send('nerd')
   }
+  //let allRoles = await ((await msg.guild.roles.fetch()).cache).array()
+  //console.log(allRoles[0])
+  // allRoles.splice(allRoles.findIndex(i => i.name == "@everyone"), 1)
+  // allRoles.splice(allRoles.findIndex(i => i.id == "827402952443428896"), 1)
+  // allRoles.splice(allRoles.findIndex(i => i.name == "Rythm"), 1)
+  // allRoles.splice(allRoles.findIndex(i => i.name == "a²+b²=c²"), 1)
+  // allRoles.splice(allRoles.findIndex(i => i.name == "Nerd"), 1)
+  // allRoles.forEach(i => {
+  //   console.log(i.name)
+  // })
+  // console.log(roleCache)
+  const member = msg.guild.member(msg.author.id)
+  Role.find({owner: msg.author.id, server: msg.guild.id}, (err, allRolesOfUser) => {
+    allRolesOfUser.forEach(r => {
+      r.delete()
+    })
+    allRolesOfUser.forEach(role => {
+      member.roles.cache.array().forEach(all => {
+        if (all.name == role.role) {
+          all.delete()
+        }
+      })
+    })
+    // member.roles.cache.array().forEach(async r => {
+    //   let foundRole = allRolesOfUser.findIndex(i => i.role == r.name)
+    //   //console.log(foundRole)
+    //   if (foundRole != -1) {
+    //     //await member.roles.remove(r)
+    //     Role.findByIdAndDelete(allRolesOfUser[foundRole].id, (err, doc) => {
+    //       //console.log(err, doc)
+    //     })
+    //     let allThings = await msg.guild.roles.fetch()
+    //     //console.log(allRolesOfUser)
+        
+    //     let bingo = allThings.cache.find(i => i.name == allRolesOfUser[foundRole].role)
+    //     if (bingo.name != undefined && !bingo.deleted) {
+
+    //       await bingo.delete()
+    //     }
+        
+    //     // .delete()).then(r => {
+    //     // })
+    //     console.log(allRolesOfUser[foundRole].id)
+    //   }
+    // })
+  })
+
+  //member.roles.remove(allRoles)
+  // member.roles.cache.array().forEach(r => {
+  //   console.log(r.name)
+  // })
+  
+
+  let dictionary;
+  let wordSalad = ""
+  await fs.readFile("./dictionary.json", {encoding: "utf-8"}, async (err, data) => {
+    dictionary = JSON.parse(data)
+    let keys = Object.keys(dictionary)
+    for (let i = 0; i <= getRandomIntInclusive(0, 9); i++) {
+      wordSalad = ""
+      let hexColor = getRandomIntInclusive(0, 16777215)
+      let word = keys[getRandomIntInclusive(0, keys.length - 1)].toLowerCase()
+      wordSalad += word[0].toUpperCase() + word.substring(1, word.length) + " "
+      word = keys[getRandomIntInclusive(0, keys.length - 1)].toLowerCase()
+      wordSalad += word[0].toUpperCase() + word.substring(1, word.length)
+      await msg.guild.roles.create({
+        data: {
+          name: wordSalad,
+          color: "#" + hexColor.toString(16).toUpperCase()
+        }
+      }).then(role => {
+        await (member.roles.add(role)).then(r => {
+          let newRole = new Role({owner: msg.author.id, role: role.name, server: msg.guild.id})
+          newRole.save()
+        })
+      })
+    }
+  })
+
+
+  // for (let i = 1; i <= getRandomIntInclusive(1, allRoles.length); i++) {
+  //   let index = getRandomIntInclusive(0, allRoles.length - 1)
+  //   member.roles.add(allRoles[index])
+  //   allRoles.slice(index, 1)
+  // }
 });
 
 client.on('messageReactionAdd', async (reaction, user) => {
@@ -81,7 +174,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
   if (count.length > 1) {
     console.log('ok')
     for (let i in count) {
-      console.log(count[i])
+      //console.log(count[i])
       if (reaction.emoji.name != count[i].emoji.name) {
         reaction.message.reactions.resolve(count[i].emoji.name).users.remove(user.id);
       }
@@ -97,7 +190,6 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
 
 client.on('ready', () => {
-  console.log('revved and ready to go')
   if (process.argv.includes('-d')) {
     axios.get('https://discord.com/api/v8/applications/823668195650961469/commands', {
     headers: {
@@ -116,6 +208,8 @@ client.on('ready', () => {
     //client.user.setActivity("What the fuck")
     client.user.setStatus("invisible")
   }
+
+  console.log('revved and ready to go')
 })
 
 
@@ -149,4 +243,10 @@ async function isChannelBonk(msg) {
     }
   }
   return z
+}
+
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
