@@ -6,6 +6,8 @@ fs = require('fs'),
 path = require('path'),
 mongoose = require('mongoose')
 
+let BOT_ID
+
 mongoose.connect('mongodb+srv://user:user@cluster0.ujgb0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
   //console.log(err)
 })
@@ -17,7 +19,7 @@ let Role = mongoose.model('Role', {
 })
 
 let commands = new Discord.Collection();
-let nerdMatch = /(?:^|\s)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology)(?:$|\s)/gm
+let nerdMatch = /(?:^|\s|.|-|,)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology)(?:$|\s|.|-|,|\?)/gm
 
 fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
   const command = require(`./commands/${file}`)
@@ -62,9 +64,15 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
 
 
 client.on('message', async msg => {
-  if (msg.author.id == "823668195650961469")
+  // (await msg.guild.roles.fetch()).cache.array().forEach(r => {
+  //   //console.log((r.members.array())[0].user)
+  //   if ((r.members.array()).length != 0) {
+  //     console.log(r.name)
+  //   }
+  // })
+  if (msg.author.id == BOT_ID)
     return
-  if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || isMentionBonk(msg)) && msg.author.id != "823668195650961469" ) {
+  if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || isMentionBonk(msg)) && msg.author.id != BOT_ID ) {
     msg.channel.send("BONK")
   }
   if (msg.content.toLowerCase().match(nerdMatch)) {
@@ -121,6 +129,21 @@ client.on('message', async msg => {
   // member.roles.cache.array().forEach(r => {
   //   console.log(r.name)
   // })
+
+  if (msg.content == 'do it' && msg.author.id == '234529409694957569') {
+    msg.channel.send('okay')
+    for (let i = 8; i <= 99; i++) {
+      setTimeout(async() => {
+        let hexColor = getRandomIntInclusive(0, 16777215)
+        await msg.guild.roles.create({
+          data: {
+            name: 'gamer' + i,
+            color: "#" + hexColor.toString(16).toUpperCase()
+          }
+        })
+      }, 3000 * i)
+    }
+  }
   
 
   let dictionary;
@@ -128,7 +151,7 @@ client.on('message', async msg => {
   await fs.readFile("./dictionary.json", {encoding: "utf-8"}, async (err, data) => {
     dictionary = JSON.parse(data)
     let keys = Object.keys(dictionary)
-    for (let i = 0; i <= getRandomIntInclusive(0, 9); i++) {
+    for (let i = 0; i <= getRandomIntInclusive(0, 2); i++) {
       wordSalad = ""
       let hexColor = getRandomIntInclusive(0, 16777215)
       let word = keys[getRandomIntInclusive(0, keys.length - 1)].toLowerCase()
@@ -141,9 +164,12 @@ client.on('message', async msg => {
           color: "#" + hexColor.toString(16).toUpperCase()
         }
       }).then(async role => {
+        //console.log(role)
         await (member.roles.add(role)).then(r => {
           let newRole = new Role({owner: msg.author.id, role: role.name, server: msg.guild.id})
           newRole.save()
+        }).catch(e => {
+          console.log(e)
         })
       })
     }
@@ -210,6 +236,7 @@ client.on('ready', () => {
   }
 
   console.log('revved and ready to go')
+  BOT_ID = client.user.id
 })
 
 
