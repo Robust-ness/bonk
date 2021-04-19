@@ -29,13 +29,14 @@ fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
     "description": command.description,
     "options": command.options
   }
+  //console.log(customJSON)
   if (!process.argv.includes('-n'))
     return
-  axios.request('https://discord.com/api/v8/applications/823668195650961469/commands', {
+  axios.request(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands`, {
     method: 'POST',
     data: JSON.stringify(customJSON),
     headers: {
-      'Authorization' : 'Bot ODIzNjY4MTk1NjUwOTYxNDY5.YFkKyA.cMcnULXAqU55nz6NBZsD22tppGY',
+      'Authorization' : `Bot ${process.env.BOT_TOKEN}`,
       'Content-Type': 'application/json'
     }
   }).then(res => {
@@ -70,7 +71,7 @@ client.on('message', async msg => {
   //     console.log(r.name)
   //   }
   // })
-  if (msg.author.id == BOT_ID)
+  if (msg.author.id == process.env.BOT_ID)
     return
   if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || isMentionBonk(msg)) && msg.author.id != BOT_ID ) {
     msg.channel.send("BONK")
@@ -217,18 +218,19 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
 client.on('ready', () => {
   if (process.argv.includes('-d')) {
-    axios.get('https://discord.com/api/v8/applications/823668195650961469/commands', {
+    axios.get(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands`, {
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': 'Bot ODIzNjY4MTk1NjUwOTYxNDY5.YFkKyA.cMcnULXAqU55nz6NBZsD22tppGY'
+      'Authorization': `Bot ${process.env.BOT_TOKEN}`
     }}).then(res => {
       res.data.forEach(r => {
-        axios.delete(`https://discord.com/api/v8/applications/823668195650961469/commands/${r.id}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bot ODIzNjY4MTk1NjUwOTYxNDY5.YFkKyA.cMcnULXAqU55nz6NBZsD22tppGY'
-          }
-        }).then(r => {console.log(r.statusText)})
+      //   axios.delete(`https://discord.com/api/v8/applications/823668195650961469/commands/${r.id}`, {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //       'Authorization': `Bot ${process.env.BOT_TOKEN}`
+      //     }
+      //   }).then(r => {console.log(r.statusText)})
+      console.log(r)
       })
     })
     //client.user.setActivity("What the fuck")
@@ -236,7 +238,7 @@ client.on('ready', () => {
   }
 
   console.log('revved and ready to go')
-  BOT_ID = client.user.id
+  BOT_ID = client.user.id;
 })
 
 
