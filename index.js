@@ -71,7 +71,7 @@ client.on('message', async msg => {
   // })
   if (msg.author.id == process.env.BOT_ID)
     return
-  if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || isMentionBonk(msg)) && msg.author.id != BOT_ID ) {
+  if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || isMentionBonk(msg)) && msg.author.id != process.env.BOT_ID ) {
     msg.channel.send("BONK")
   }
   if (msg.content.toLowerCase().match(nerdMatch)) {
