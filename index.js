@@ -6,8 +6,6 @@ fs = require('fs'),
 path = require('path'),
 mongoose = require('mongoose')
 
-let BOT_ID
-
 mongoose.connect('mongodb+srv://user:user@cluster0.ujgb0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
   //console.log(err)
 })
@@ -90,18 +88,18 @@ client.on('message', async msg => {
   //   console.log(i.name)
   // })
   // console.log(roleCache)
-  const member = msg.guild.member(msg.author.id)
-  Role.find({owner: msg.author.id, server: msg.guild.id}, (err, allRolesOfUser) => {
-    allRolesOfUser.forEach(r => {
-      r.delete()
-    })
-    allRolesOfUser.forEach(role => {
-      member.roles.cache.array().forEach(all => {
-        if (all.name == role.role) {
-          all.delete()
-        }
-      })
-    })
+  // const member = msg.guild.member(msg.author.id)
+  // Role.find({owner: msg.author.id, server: msg.guild.id}, (err, allRolesOfUser) => {
+  //   allRolesOfUser.forEach(r => {
+  //     r.delete()
+  //   })
+  //   allRolesOfUser.forEach(role => {
+  //     member.roles.cache.array().forEach(all => {
+  //       if (all.name == role.role) {
+  //         all.delete()
+  //       }
+  //     })
+  //   })
     // member.roles.cache.array().forEach(async r => {
     //   let foundRole = allRolesOfUser.findIndex(i => i.role == r.name)
     //   //console.log(foundRole)
@@ -124,57 +122,57 @@ client.on('message', async msg => {
     //     console.log(allRolesOfUser[foundRole].id)
     //   }
     // })
-  })
+  // })
 
   //member.roles.remove(allRoles)
   // member.roles.cache.array().forEach(r => {
   //   console.log(r.name)
   // })
 
-  if (msg.content == 'do it' && msg.author.id == '234529409694957569') {
-    msg.channel.send('okay')
-    for (let i = 8; i <= 99; i++) {
-      setTimeout(async() => {
-        let hexColor = getRandomIntInclusive(0, 16777215)
-        await msg.guild.roles.create({
-          data: {
-            name: 'gamer' + i,
-            color: "#" + hexColor.toString(16).toUpperCase()
-          }
-        })
-      }, 3000 * i)
-    }
-  }
+  // if (msg.content == 'do it' && msg.author.id == '234529409694957569') {
+  //   msg.channel.send('okay')
+  //   for (let i = 8; i <= 99; i++) {
+  //     setTimeout(async() => {
+  //       let hexColor = getRandomIntInclusive(0, 16777215)
+  //       await msg.guild.roles.create({
+  //         data: {
+  //           name: 'gamer' + i,
+  //           color: "#" + hexColor.toString(16).toUpperCase()
+  //         }
+  //       })
+  //     }, 3000 * i)
+  //   }
+  // }
   
 
-  let dictionary;
-  let wordSalad = ""
-  await fs.readFile("./dictionary.json", {encoding: "utf-8"}, async (err, data) => {
-    dictionary = JSON.parse(data)
-    let keys = Object.keys(dictionary)
-    for (let i = 0; i <= getRandomIntInclusive(0, 2); i++) {
-      wordSalad = ""
-      let hexColor = getRandomIntInclusive(0, 16777215)
-      let word = keys[getRandomIntInclusive(0, keys.length - 1)].toLowerCase()
-      wordSalad += word[0].toUpperCase() + word.substring(1, word.length) + " "
-      word = keys[getRandomIntInclusive(0, keys.length - 1)].toLowerCase()
-      wordSalad += word[0].toUpperCase() + word.substring(1, word.length)
-      await msg.guild.roles.create({
-        data: {
-          name: wordSalad,
-          color: "#" + hexColor.toString(16).toUpperCase()
-        }
-      }).then(async role => {
-        //console.log(role)
-        await (member.roles.add(role)).then(r => {
-          let newRole = new Role({owner: msg.author.id, role: role.name, server: msg.guild.id})
-          newRole.save()
-        }).catch(e => {
-          console.log(e)
-        })
-      })
-    }
-  })
+  // let dictionary;
+  // let wordSalad = ""
+  // await fs.readFile("./dictionary.json", {encoding: "utf-8"}, async (err, data) => {
+  //   dictionary = JSON.parse(data)
+  //   let keys = Object.keys(dictionary)
+  //   for (let i = 0; i <= getRandomIntInclusive(0, 2); i++) {
+  //     wordSalad = ""
+  //     let hexColor = getRandomIntInclusive(0, 16777215)
+  //     let word = keys[getRandomIntInclusive(0, keys.length - 1)].toLowerCase()
+  //     wordSalad += word[0].toUpperCase() + word.substring(1, word.length) + " "
+  //     word = keys[getRandomIntInclusive(0, keys.length - 1)].toLowerCase()
+  //     wordSalad += word[0].toUpperCase() + word.substring(1, word.length)
+  //     await msg.guild.roles.create({
+  //       data: {
+  //         name: wordSalad,
+  //         color: "#" + hexColor.toString(16).toUpperCase()
+  //       }
+  //     }).then(async role => {
+  //       //console.log(role)
+  //       await (member.roles.add(role)).then(r => {
+  //         let newRole = new Role({owner: msg.author.id, role: role.name, server: msg.guild.id})
+  //         newRole.save()
+  //       }).catch(e => {
+  //         console.log(e)
+  //       })
+  //     })
+  //   }
+  // })
 
 
   // for (let i = 1; i <= getRandomIntInclusive(1, allRoles.length); i++) {
@@ -238,7 +236,6 @@ client.on('ready', () => {
   }
 
   console.log('revved and ready to go')
-  BOT_ID = client.user.id;
 })
 
 
