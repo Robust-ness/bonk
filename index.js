@@ -191,7 +191,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 			return;
 		}
 	}
-  if (user.id == "823668195650961469")
+  if (user.id == "832755822001782814")
     return
   let count = await (await reaction.message.fetch()).reactions.cache.filter(reaction => reaction.emoji.name == "👎" || reaction.emoji.name == "👍").array()
   //console.log(count)
