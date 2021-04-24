@@ -17,7 +17,7 @@ let Role = mongoose.model('Role', {
 })
 
 let commands = new Discord.Collection();
-let nerdMatch = /(?:^|\s|\.|-|,)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology)(?:$|\s|\.|-|,|\?)/gm
+let nerdMatch = /(?:^|\s|\.|-|,)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology|samantha|sammy)(?:$|\s|\.|-|,|\?)/gm
 
 fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
   const command = require(`./commands/${file}`)
