@@ -11,6 +11,8 @@ module.exports = {
             channel.send("Word is already there.")
             return
         }
+        nerdMatch = `(?:^|\\s|\\.|-|,)(?:${fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, "|")})(?:$|\\s|\\.|-|,|\\?|s|\\!)`
+        nerdMatch = RegExp(nerdMatch, "gm")
         fs.writeFileSync("nerd-dictionary.txt", origString + "," + newKeyWord)
         channel.send("New Dictionary:\n" + "`" + fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, ", ") + "`")
         return
