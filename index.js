@@ -17,7 +17,7 @@ let Role = mongoose.model('Role', {
 })
 
 let commands = new Discord.Collection();
-let nerdMatch = /(?:^|\s|\.|-|,)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology|samantha|sammy|physics|anita|romano|sidhartha|mishra|nerd|semester|trimester|study|work|max|brian|adam|fuck|life|gaming|gamer|epic|exam|final|midterm|ghost|nicholas|boomer|andi|csi|college|staten|island|zoo|sudoku|mitch|miller|field|gateway|fort|wadsworth)(?:$|\s|\.|-|,|\?|s|\!)/gm
+let nerdMatch = /(?:^|\s|\.|-|,)(?:geo|math|geology|calc|calculus|compsci|computer science|chem|english|hw|homework|quiz|test|seminar|macaulay|lisa|french|sam|nick|keryn|bio|biology|samantha|sammy|physics|anita|romano|sidhartha|mishra|nerd|semester|trimester|study|work|max|brian|adam|fuck|life|gaming|gamer|epic|exam|final|midterm|ghost|nicholas|boomer|andi|csi|college|staten|island|zoo|sudoku|mitch|miller|field|gateway|fort|wadsworth|cunyfirst|blackboard)(?:$|\s|\.|-|,|\?|s|\!)/gm
 
 fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
   const command = require(`./commands/${file}`)
