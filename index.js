@@ -64,6 +64,8 @@ client.ws.on('INTERACTION_CREATE', async interaction => {
 
 
 client.on('message', async msg => {
+  nerdMatch = `(?:^|\\s|\\.|-|,)(?:${fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, "|")})(?:$|\\s|\\.|-|,|\\?|s|\\!)`
+  nerdMatch = RegExp(nerdMatch, "gm")
   // (await msg.guild.roles.fetch()).cache.array().forEach(r => {
   //   //console.log((r.members.array())[0].user)
   //   if ((r.members.array()).length != 0) {
