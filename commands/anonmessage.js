@@ -17,6 +17,5 @@ module.exports = {
             "required": true
         }
     ],
-    response: 'sending gamer',
-    flags: 64
+    response: 'sending gamer'
 }
