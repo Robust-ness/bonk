@@ -9,6 +9,5 @@ module.exports = {
     },
     responseType: 4,
     options: [],
-    response: "Current List: ",
-    flags: 64
+    response: "Current List: "
 }
