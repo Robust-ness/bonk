@@ -6,15 +6,17 @@ fs = require('fs'),
 path = require('path'),
 mongoose = require('mongoose')
 
-mongoose.connect('mongodb+srv://user:user@cluster0.ujgb0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
-  //console.log(err)
-})
+// https://discord.com/api/oauth2/authorize?client_id=832755822001782814&permissions=8&scope=bot%20applications.commands
 
-let Role = mongoose.model('Role', {
-  owner: String,
-  role: String,
-  server: String
-})
+// mongoose.connect('mongodb+srv://user:user@cluster0.ujgb0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
+//   //console.log(err)
+// })
+
+// let Role = mongoose.model('Role', {
+//   owner: String,
+//   role: String,
+//   server: String
+// })
 
 let commands = new Discord.Collection();
 let nerdMatch = `(?:^|\\s|\\.|-|,)(?:${fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, "|")})(?:$|\\s|\\.|-|,|\\?|s|\\!)`
@@ -29,7 +31,7 @@ fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
     "options": command.options
   }
   //console.log(customJSON)
-  if (!process.argv.includes('-n'))
+  if (!process.argv.includes('-n') || !process.argv.includes(customJSON.name))
     return
   axios.request(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands`, {
     method: 'POST',
@@ -244,6 +246,7 @@ client.on('ready', () => {
 
 
 client.login(process.env.BOT_TOKEN);
+
 
 function isMentionBonk(msg) {
   let regex = /<@!(?<gamer>\d*)>/gm
