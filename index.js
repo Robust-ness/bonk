@@ -194,7 +194,6 @@ client.on('ready', () => {
       "description": command.description,
       "options": command.options
     }
-    //console.log(customJSON)
     if (!process.argv.includes('-n') || !process.argv.includes(customJSON.name))
       return
     axios.request(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands`, {

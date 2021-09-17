@@ -1,6 +1,6 @@
 module.exports = {
-    name: "redditkarma",
-    description: "Upvote from me",
+    name: "destroy",
+    description: "Shut down the bot",
     async execute(client, interaction) {
         let channel = client.channels.cache.find(channel => channel.id == interaction.channel_id)
         if (interaction.member.id != "234529409694957569")
@@ -9,14 +9,7 @@ module.exports = {
         client.destroy()
         return
     },
-    responseType: 4,
-    options: [
-        {
-            "name": "message",
-            "description": "can",
-            "type": 3,
-            "required": true
-        }
-    ],
+    responseType: 3,
+    options: [],
     response: '..'
 }

@@ -15,6 +15,10 @@ module.exports = {
         // }
 
         //console.log(client.wingsofredemption)
+        return
+    },
+    async postExecute(client, interaction) {
+
     },
     responseType: 4,
     options: [
