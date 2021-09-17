@@ -8,59 +8,25 @@ mongoose = require('mongoose')
 
 // https://discord.com/api/oauth2/authorize?client_id=832755822001782814&permissions=8&scope=bot%20applications.commands
 
-// mongoose.connect('mongodb+srv://user:user@cluster0.ujgb0.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {useNewUrlParser: true, useUnifiedTopology: true}, (err) => {
-//   //console.log(err)
-// })
-
-// let Role = mongoose.model('Role', {
-//   owner: String,
-//   role: String,
-//   server: String
-// })
-
 let commands = new Discord.Collection();
-let nerdMatch = `(?:^|\\s|\\.|-|,)(?:${fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, "|")})(?:$|\\s|\\.|-|,|\\?|s|\\!)`
-nerdMatch = RegExp(nerdMatch, "gm")
-
-fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
-  const command = require(`./commands/${file}`)
-  commands.set(command.name, command)
-  const customJSON = {
-    "name": command.name,
-    "description": command.description,
-    "options": command.options
-  }
-  //console.log(customJSON)
-  if (!process.argv.includes('-n') || !process.argv.includes(customJSON.name))
-    return
-  axios.request(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands`, {
-    method: 'POST',
-    data: JSON.stringify(customJSON),
-    headers: {
-      'Authorization' : `Bot ${process.env.BOT_TOKEN}`,
-      'Content-Type': 'application/json'
-    }
-  }).then(res => {
-    console.log(res.statusText)
-  })
-})
+let nerdMatch = RegExp(`(?:^|\\s|\\.|-|,)(?:${fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, "|")})(?:$|\\s|\\.|-|,|\\?|s|\\!)`, 'gm')
 
 client.ws.on('INTERACTION_CREATE', async interaction => {
+  let dadata
   if (!commands.has(interaction.data.name))
     return
 
   let command = commands.get(interaction.data.name)
-  let dadata = {
+  dadata = {
     data: {
       type: command.responseType,
       data: {
         content: command.response
-        
       }
     }
   }
   command.flags != undefined ? dadata.data.data.flags = 64 : 0
-  client.api.interactions(interaction.id, interaction.token).callback.post(dadata)
+  console.log(client.api.interactions(interaction.id, interaction.token).callback.post(dadata))
   await command.execute(client, interaction)
 })
 
@@ -220,6 +186,29 @@ client.on('messageReactionAdd', async (reaction, user) => {
 
 
 client.on('ready', () => {
+  fs.readdirSync(path.join(__dirname, 'commands')).forEach(file => {
+    const command = require(`./commands/${file}`)
+    commands.set(command.name, command)
+    const customJSON = {
+      "name": command.name,
+      "description": command.description,
+      "options": command.options
+    }
+    //console.log(customJSON)
+    if (!process.argv.includes('-n') || !process.argv.includes(customJSON.name))
+      return
+    axios.request(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands`, {
+      method: 'POST',
+      data: JSON.stringify(customJSON),
+      headers: {
+        'Authorization' : `Bot ${process.env.BOT_TOKEN}`,
+        'Content-Type': 'application/json'
+      }
+    }).then(res => {
+      console.log(res.statusText)
+    })
+    client.destroy()
+  })
   if (process.argv.includes('-d')) {
     axios.get(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands`, {
     headers: {
@@ -227,17 +216,15 @@ client.on('ready', () => {
       'Authorization': `Bot ${process.env.BOT_TOKEN}`
     }}).then(res => {
       res.data.forEach(r => {
-      //   axios.delete(`https://discord.com/api/v8/applications/823668195650961469/commands/${r.id}`, {
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //       'Authorization': `Bot ${process.env.BOT_TOKEN}`
-      //     }
-      //   }).then(r => {console.log(r.statusText)})
-      console.log(r)
+        axios.delete(`https://discord.com/api/v8/applications/823668195650961469/commands/${r.id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bot ${process.env.BOT_TOKEN}`
+          }
+        }).then(r => {console.log(r.statusText)})
       })
     })
-    //client.user.setActivity("What the fuck")
-    client.user.setStatus("invisible")
+    client.destroy()
   }
 
   console.log('revved and ready to go')
