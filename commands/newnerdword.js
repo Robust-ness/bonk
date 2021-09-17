@@ -22,7 +22,7 @@ module.exports = {
         {
             "name": "word",
             "description": "Nope",
-            "type": 4,
+            "type": 3,
             "required": true
         }
     ],
