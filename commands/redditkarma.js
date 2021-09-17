@@ -1,11 +1,19 @@
+const { CommandInteraction, Client } = require('discord.js')
+
 module.exports = {
     name: "redditkarma",
     description: "Upvote from me",
+    /**
+     * @param {CommandInteraction} interaction
+     * @param {Client} client
+     */
     async execute(client, interaction) {
-        let channel = client.channels.cache.find(channel => channel.id == interaction.channel_id)
-        let message = await channel.send(interaction.data.options[0].value)
-        message.react("👍")
-        message.react("👎")
+        let message = await interaction.reply({
+            content: interaction.options.getString("message"),
+            fetchReply: true
+        })
+        await message.react("👍")
+        await message.react("👎")
         // if (client.channels.cache.find(channel => channel.id == interaction.data.options[0].value).isText()) {
         //     if (!client.wingsofredemption.find(search => search.id == interaction.data.options[0].value)) {
         //         client.wingsofredemption.push({id: interaction.data.options[0].value, reddit: true})
@@ -15,12 +23,7 @@ module.exports = {
         // }
 
         //console.log(client.wingsofredemption)
-        return
     },
-    async postExecute(client, interaction) {
-
-    },
-    responseType: 4,
     options: [
         {
             "name": "message",
@@ -28,7 +31,5 @@ module.exports = {
             "type": 3,
             "required": true
         }
-    ],
-    response: 'ok redditor',
-    flags: 64
+    ]
 }

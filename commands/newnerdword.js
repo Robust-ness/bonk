@@ -1,23 +1,29 @@
 const fs = require('fs')
+const {CommandInteraction, Client} = require("discord.js")
 
 module.exports = {
     name: "newnerdword",
     description: "Add nerd word.",
+    /**
+     * @param {CommandInteraction} interaction
+     * @param {Client} client
+     */
     async execute(client, interaction) {
-        let newKeyWord = String(interaction.data.options[0].value).trim().toLowerCase()
-        let channel = client.channels.cache.find(channel => channel.id == interaction.channel_id)
+        let newKeyWord = String(interaction.options.getString("word")).trim().toLowerCase()
         let origString = fs.readFileSync("nerd-dictionary.txt").toString()
         if (origString.search(newKeyWord) != -1) {
-            channel.send("Word is already there.")
+            interaction.reply(`Error: Word \`${newKeyWord}\` already exists.`)
             return
         }
         fs.writeFileSync("nerd-dictionary.txt", origString + "," + newKeyWord)
         nerdMatch = `(?:^|\\s|\\.|-|,)(?:${fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, "|")})(?:$|\\s|\\.|-|,|\\?|s|\\!)`
         nerdMatch = RegExp(nerdMatch, "gm")
-        channel.send("New Dictionary:\n" + "`" + fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, ", ") + "`")
-        return
+        interaction.reply(
+            {
+                content: `Added \`${newKeyWord}\`\n\nNew Dictionary:\n` + "`" + fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, ", ") + "`"
+            }
+        )
     },
-    responseType: 4,
     options: [
         {
             "name": "word",
@@ -25,6 +31,5 @@ module.exports = {
             "type": 3,
             "required": true
         }
-    ],
-    response: "Processed.",
+    ]
 }

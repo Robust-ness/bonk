@@ -1,14 +1,16 @@
+const {CommandInteraction, Client} = require("discord.js")
+
 module.exports = {
     name: "anonmessage",
     description: "Set a discreet message using BonkBot:tm: as a medium.",
+    /**
+     * @param {CommandInteraction} interaction
+     * @param {Client} client
+     */
     async execute(client, interaction) {
-        let channel = client.channels.cache.find(channel => channel.id == interaction.channel_id)
-        //channel.send('gamer')
-        //console.log(interaction.data.options[0].value)
-        channel.send(interaction.data.options[0].value)
-        return
+        await interaction.reply({content: "Sending...", ephemeral: true})
+        interaction.channel.send(interaction.options.getString("message"))
     },
-    responseType: 4,
     options: [
         {
             "name": "message",
@@ -16,6 +18,5 @@ module.exports = {
             "type": 3,
             "required": true
         }
-    ],
-    response: 'sending gamer'
+    ]
 }

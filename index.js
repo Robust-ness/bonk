@@ -1,34 +1,37 @@
 const Discord = require('discord.js'),
+{ Intents } = require('discord.js'),
+client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'], 
+  intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS]}),
 dotenv = require('dotenv').config(),
-client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION'] }),
 axios = require('axios').default,
 fs = require('fs'),
-path = require('path'),
-mongoose = require('mongoose')
+path = require('path')
 
 // https://discord.com/api/oauth2/authorize?client_id=832755822001782814&permissions=8&scope=bot%20applications.commands
 
 let commands = new Discord.Collection();
 let nerdMatch = RegExp(`(?:^|\\s|\\.|-|,)(?:${fs.readFileSync("nerd-dictionary.txt").toString().replace(/,/g, "|")})(?:$|\\s|\\.|-|,|\\?|s|\\!)`, 'gm')
 
-client.ws.on('INTERACTION_CREATE', async interaction => {
-  let dadata
-  if (!commands.has(interaction.data.name))
+client.on('interactionCreate', async interaction => {
+  if (!interaction.isCommand() || !commands.has(interaction.commandName))
     return
-
-  let command = commands.get(interaction.data.name)
-  dadata = {
-    data: {
-      type: command.responseType,
-      data: {
-        content: command.response
-      }
-    }
-  }
-  command.flags != undefined ? dadata.data.data.flags = 64 : 0
-  console.log(client.api.interactions(interaction.id, interaction.token).callback.post(dadata))
+  let command = commands.get(interaction.commandName)
   await command.execute(client, interaction)
 })
+
+// client.ws.on('INTERACTION_CREATE', async interaction => {
+//   dadata = {
+//     data: {
+//       type: command.responseType,
+//       data: {
+//         content: command.response
+//       }
+//     }
+//   }
+//   command.flags != undefined ? dadata.data.data.flags = 64 : 0
+//   console.log(await client.api.interactions(interaction.id, interaction.token).callback.post(dadata))
+//   await command.execute(client, interaction)
+// })
 
 
 client.on('message', async msg => {
@@ -164,17 +167,16 @@ client.on('messageReactionAdd', async (reaction, user) => {
 	}
   if (user.id == "832755822001782814")
     return
-  let count = await (await reaction.message.fetch()).reactions.cache.filter(reaction => reaction.emoji.name == "👎" || reaction.emoji.name == "👍").array()
-  //console.log(count)
-  //count = reaction.message.reactions.cache.filter(reaction => reaction.users.cache.has(user.id)).filter(reaction => reaction.emoji.name == "👎" || reaction.emoji.name == "👍").array()
-  if (count.length > 1) {
-    console.log('ok')
-    for (let i in count) {
-      //console.log(count[i])
-      if (reaction.emoji.name != count[i].emoji.name) {
-        reaction.message.reactions.resolve(count[i].emoji.name).users.remove(user.id);
+  let count = await (await reaction.message.fetch())
+    .reactions
+    .cache
+    .filter(reaction => reaction.emoji.name == "👎" || reaction.emoji.name == "👍")
+  if (count.size > 1) {
+    count.forEach(r => {
+      if (reaction.emoji.name != r.emoji.name) {
+        reaction.message.reactions.resolve(r.emoji.name).users.remove(user.id);
       }
-    }
+    })
     // if (reaction.message.guild.member(user.id).kickable) {
     //   reaction.message.guild.member(user.id).kick("banned for racism")
     //   reaction.message.channel.send(`<@!${user.id}> banned for racism`)

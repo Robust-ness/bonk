@@ -1,22 +1,21 @@
 const fs = require('fs')
-const Discord = require('discord.js')
+const {CommandInteraction, Client, Message, MessageAttachment} = require("discord.js")
 
 module.exports = {
     name: "mitch",
     description: "mitch",
+    /**
+     * @param {CommandInteraction} interaction
+     * @param {Client} client
+     */
     async execute(client, interaction) {
-        let channel = client.channels.cache.find(channel => channel.id == interaction.channel_id)
-        let arr = [];
-        fs.readdirSync('./mitch').forEach(r => {
-            arr.push(r);
-        })
-        let attach = new Discord.MessageAttachment('./mitch/' + arr[getRandomIntInclusive(0, arr.length - 1)])
-        channel.send(attach)
-        return
+        interaction.reply(
+            {
+                files: [new MessageAttachment('./mitch/' + fs.readdirSync('./mitch')[getRandomIntInclusive(0, fs.readdirSync('./mitch').length - 1)])]
+            }
+        )
     },
-    responseType: 4,
-    options: [],
-    response: "mitch"
+    options: []
 }
 
 function getRandomIntInclusive(min, max) {
