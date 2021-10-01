@@ -235,21 +235,27 @@ client.on('ready', () => {
 
 client.login(process.env.BOT_TOKEN);
 
+/**
+ * 
+ * @param {Discord.Message} msg 
+ */
 
-function isMentionBonk(msg) {
+async function isMentionBonk(msg) {
   let regex = /<@!(?<gamer>\d*)>/gm
   let z = false;
   if (msg.content.match(regex) != null) {
-    msg.content.match(regex).forEach(s => {
+    msg.content.match(regex).forEach(async s => {
       s = s.substring(3, s.length - 1)
-      if (s != null) {
-        z = z || msg.guild.member(s).displayName.toLowerCase().includes('bonk')
-      }
+      z = z || (await msg.guild.members.fetch(s)).displayName.toLowerCase().includes('bonk')
     })
   }
   return z
 }
 
+/**
+ * 
+ * @param {Discord.Message} msg 
+ */
 async function isChannelBonk(msg) {
   let regex2 = /<#(?<gamer>\d*)>/gm
   let z = false;
