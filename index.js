@@ -45,7 +45,7 @@ client.on('message', async msg => {
   // })
   if (msg.author.id == process.env.BOT_ID)
     return
-  if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || isMentionBonk(msg)) && msg.author.id != process.env.BOT_ID ) {
+  if ((msg.content.toLowerCase().includes("bonk") || await isChannelBonk(msg) || await isMentionBonk(msg)) && msg.author.id != process.env.BOT_ID ) {
     msg.channel.send("BONK")
   }
   if (msg.content.toLowerCase().match(nerdMatch)) {
@@ -244,7 +244,7 @@ async function isMentionBonk(msg) {
   let regex = /<@!(?<gamer>\d*)>/gm
   let z = false;
   if (msg.content.match(regex) != null) {
-    msg.content.match(regex).forEach(async s => {
+    await msg.content.match(regex).forEach(async s => {
       s = s.substring(3, s.length - 1)
       z = z || (await msg.guild.members.fetch(s)).displayName.toLowerCase().includes('bonk')
     })
