@@ -20,7 +20,7 @@ module.exports = {
             send += ":loud_sound:"
         }
 		
-		for (let i = 0; i < amount; i++) {
+		for (let i = 0; i < spam; i++) {
             interaction.channel.send(send)
         }
     },
