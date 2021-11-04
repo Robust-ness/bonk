@@ -16,7 +16,8 @@ module.exports = {
 		let spamMessage = interaction.options.getString("phrase")
         interaction.reply({ephemeral: true, content: "ok"})
         for (let i = 0; i < amount; i++) {
-            await interaction.channel.send(spamMessage)
+            await interaction.channel.send(send)
+            await sleep(2000)
         }
     },
     options: [
@@ -34,4 +35,8 @@ module.exports = {
         }
 
     ]
+}
+
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }

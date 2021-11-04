@@ -10,6 +10,10 @@ module.exports = {
     async execute(client, interaction) {
 		let amount = interaction.options.getInteger("i")
 		let spam = interaction.options.getInteger("j")
+        if (":firetruck::loud_sound:".length * amount > 2000 || spam > 20) {
+            interaction.reply("no")
+            return
+        }
 		let send = ""
 		
         for (let i = 0; i < amount; i++) {
@@ -19,9 +23,13 @@ module.exports = {
 		for (let i = 0; i < amount; i++) {
             send += ":loud_sound:"
         }
-		
+        interaction.reply({
+            content: "ok",
+            ephemeral: true
+        })
 		for (let i = 0; i < spam; i++) {
-            interaction.channel.send(send)
+            await interaction.channel.send(send)
+            await sleep(2000)
         }
     },
     options: [
@@ -38,4 +46,8 @@ module.exports = {
 			"required": true
 		}
     ]
+}
+
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }

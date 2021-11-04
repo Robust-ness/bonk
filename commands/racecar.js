@@ -28,7 +28,8 @@ module.exports = {
             ephemeral: true
         })
 		for (let i = 0; i < spam; i++) {
-            interaction.channel.send(send)
+            await interaction.channel.send(send)
+            await sleep(2000)
         }
     },
     options: [
@@ -45,4 +46,8 @@ module.exports = {
 			"required": true
 		}
     ]
+}
+
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }
