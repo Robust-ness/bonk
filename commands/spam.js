@@ -9,14 +9,18 @@ module.exports = {
      */
     async execute(client, interaction) {
 		let amount = interaction.options.getInteger("i")
+        if (amount > 20) {
+            interaction.reply("no")
+            return
+        }
 		let spamMessage = interaction.options.getString("phrase")
-		
+        interaction.reply({ephemeral: true, content: "ok"})
         for (let i = 0; i < amount; i++) {
-            interaction.channel.send(spamMessage)
+            await interaction.channel.send(spamMessage)
         }
     },
     options: [
-		{
+        {
 			"name": "i",
 			"description": "repeat amount",
 			"type": 4,
@@ -28,5 +32,6 @@ module.exports = {
             "type": 3,
             "required": true
         }
+
     ]
 }

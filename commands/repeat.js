@@ -11,11 +11,19 @@ module.exports = {
 		let amount = interaction.options.getInteger("i")
 		let spamMessage = interaction.options.getString("phrase")
         let send = ""
+        if (spamMessage.length * amount > 2000) {
+            interaction.reply("too long")
+            return
+        }
 		
         for (let i = 0; i < amount; i++) {
             send += spamMessage + " "
         }
 		
+        interaction.reply({
+            content: "ok",
+            ephemeral: true
+        })
         interaction.channel.send(send)
     },
     options: [
