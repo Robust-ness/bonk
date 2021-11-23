@@ -165,7 +165,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 			return;
 		}
 	}
-  if (user.id == "832755822001782814")
+  if (user.id == process.env.BOT_ID)
     return
   let count = await (await reaction.message.fetch())
     .reactions
