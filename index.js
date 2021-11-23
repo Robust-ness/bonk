@@ -217,7 +217,7 @@ client.on('ready', () => {
       'Authorization': `Bot ${process.env.BOT_TOKEN}`
     }}).then(res => {
       res.data.forEach(r => {
-        axios.delete(`https://discord.com/api/v8/applications/823668195650961469/commands/${r.id}`, {
+        axios.delete(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands/${r.id}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bot ${process.env.BOT_TOKEN}`
