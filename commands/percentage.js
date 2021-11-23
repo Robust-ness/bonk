@@ -40,6 +40,8 @@ module.exports = {
 			await interaction.channel.send(text)
             await sleep(1000)
 		}
+	    
+	   	await interaction.channel.send("Done!")
     },
     options: [
         {
