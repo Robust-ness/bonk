@@ -64,9 +64,16 @@ module.exports = {
 			{
 				text += c
 			}
+
+			if((text.length > 1800 && c == ' ') || text.length > 1980) {
+				interaction.channel.send(text)
+				text = ""
+			}
         }
 		
-		interaction.channel.send(text)
+		if(text.length != 0) {
+			interaction.channel.send(text)
+		}
 
 		interaction.reply({
             content: "ok",
