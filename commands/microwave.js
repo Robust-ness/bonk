@@ -1,24 +1,27 @@
-const { CommandInteraction, Client } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "microwave",
-    description: "MMM",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+	data: new SlashCommandBuilder()
+		.setName("microwave")
+		.setDescription("MMMMMMMMMMMMMMMM"),
+
     async execute(client, interaction) {
         let mmm = ""
         for (let i = 0; i < getRandomIntInclusive(700, 2000); i++) {
             mmm += "M"
         }
-        await interaction.reply("MICROWAVE")
+        
+        interaction.reply({
+            ephemeral: true,
+            content: "microwave go burr"
+        })
+
+        await interaction.channel.send("MICROWAVE")
         await sleep(1000)
-        await interaction.followUp("GO")
+        await interaction.channel.send("GO")
         await sleep(1000)
-        interaction.followUp(mmm)
-    },
-    options: []
+        await interaction.channel.send(mmm)
+    }
 }
 
 async function sleep(ms) {
@@ -28,5 +31,5 @@ async function sleep(ms) {
 function getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }

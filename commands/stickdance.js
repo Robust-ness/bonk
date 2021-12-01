@@ -1,17 +1,14 @@
-const fs = require('fs'),
-{ CommandInteraction, Client, MessageAttachment } = require('discord.js')
+const { MessageAttachment } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "stickdance",
-    description: "dsadsa9fhs8u9fhsdf",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+        .setName("stickdance")
+        .setDescription("DAE?"),
+
     async execute(client, interaction) {
         interaction.reply({
-            files: [new MessageAttachment("image0.gif")]
+            files: [new MessageAttachment('./resources/stick_dance.gif')]
         })
-    },
-    options: []
+    }
 }

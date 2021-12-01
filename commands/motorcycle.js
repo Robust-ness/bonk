@@ -1,51 +1,70 @@
-const { CommandInteraction, Client } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "motorcycle",
-    description: "motorcycle go burr",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+        .setName("motorcycle")
+        .setDescription("motorcycle go burr")
+        .addIntegerOption(i =>
+            i
+                .setName("i")
+                .setDescription("repeat amount")
+        )
+        .addIntegerOption(j =>
+            j
+                .setName("j")
+                .setDescription("spam amount")  
+        ),
+
     async execute(client, interaction) {
-		let amount = interaction.options.getInteger("i")
-		let spam = interaction.options.getInteger("j")
-        if (":motorcycle::loud_sound:".length * amount > 2000 || spam > 20) {
-            interaction.reply("no")
+		let repeat = interaction.options.getInteger("i")
+        let spam = interaction.options.getInteger("j")
+
+        if(repeat == undefined) {
+            repeat = 3
+        }
+
+        if(repeat < 1 || repeat > 10) {
+			interaction.reply({
+				ephemeral: true,
+				content: "'i' must be within 1..10"
+			})
+
             return
         }
-		let send = ""
+
+        if(spam == undefined) {
+            spam = 1
+        }
+
+        if(repeat < 1 || repeat > 10) {
+			interaction.reply({
+				ephemeral: true,
+				content: "'i' must be within 1..10"
+			})
+
+            return
+        }
+
+		let msg = ""
 		
-        for (let i = 0; i < amount; i++) {
-            send += ":motorcycle:"
+        for (let i = 0; i < repeat; i++) {
+            msg += ":motorcycle:"
         }
 		
-		for (let i = 0; i < amount; i++) {
-            send += ":loud_sound:"
+		for (let i = 0; i < repeat; i++) {
+            msg += ":loud_sound:"
         }
+
         interaction.reply({
-            content: "ok",
+            content: "motorcycle go burr",
             ephemeral: true
         })
-		for (let i = 0; i < spam; i++) {
-            await interaction.channel.send(send)
-            await sleep(2000)
+
+        for(let i = 0; i < spam; i++) {
+            await interaction.channel.send(msg)
+            await sleep(1000)
         }
-    },
-    options: [
-		{
-			"name": "i",
-			"description": "repeat amount",
-			"type": 4,
-			"required": true
-		},
-		{
-			"name": "j",
-			"description": "spam amount",
-			"type": 4,
-			"required": true
-		}
-    ]
+    }
 }
 
 async function sleep(ms) {

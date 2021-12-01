@@ -1,22 +1,18 @@
-const {CommandInteraction, Client} = require("discord.js")
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "anonmessage",
-    description: "Set a discreet message using BonkBot:tm: as a medium.",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+        .setName("anonmessage")
+        .setDescription("Set a discreet message using BonkBot:tm: as a medium")
+        .addStringOption(message =>
+            message
+                .setName("message")
+                .setDescription("message to be sent")
+                .setRequired(true)
+        ),
+
     async execute(client, interaction) {
-        await interaction.reply({content: "Sending...", ephemeral: true})
         interaction.channel.send(interaction.options.getString("message"))
-    },
-    options: [
-        {
-            "name": "message",
-            "description": "Nope",
-            "type": 3,
-            "required": true
-        }
-    ]
+        interaction.reply({content: "Sending...", ephemeral: true})
+    }
 }

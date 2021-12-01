@@ -1,20 +1,18 @@
-const { CommandInteraction, Client } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "text2emoji",
-    description: "yesno",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+        .setName("text2emoji")
+        .setDescription("converts text to emoji")
+        .addStringOption(message =>
+            message
+                .setName("message")
+                .setDescription("message to be sent")
+                .setRequired(true)
+        ),
+
     async execute(client, interaction) {
-		let phrase = interaction.options.getString("phrase")
-		
-		interaction.reply({
-            content: "ok",
-            ephemeral: true
-        })
-		
+		let phrase = interaction.options.getString("message")
 		let text = ""
 		
         for (let i = 0; i < phrase.length; i++)
@@ -58,6 +56,10 @@ module.exports = {
 			{
 				text += ":heavy_multiplication_x: "
 			}
+			else if(c == ' ')
+			{
+				text += "  "
+			}
 			else
 			{
 				text += c
@@ -65,13 +67,10 @@ module.exports = {
         }
 		
 		interaction.channel.send(text)
-    },
-    options: [
-		{
-			"name": "phrase",
-			"description": "text to be converted",
-			"type": 3,
-			"required": true
-		}
-    ]
+
+		interaction.reply({
+            content: "ok",
+            ephemeral: true
+        })
+    }
 }

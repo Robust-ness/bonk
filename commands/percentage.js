@@ -1,12 +1,16 @@
-const { CommandInteraction, Client } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "percentage",
-    description: "gunter fuchs go burr",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+        .setName("percentage")
+        .setDescription("LOADING CUMMIES... 69%")
+        .addStringOption(phrase =>
+            phrase
+                .setName("phrase")
+                .setDescription("phrase")
+                .setRequired(true)
+        ),
+
     async execute(client, interaction) {
 		let phrase = interaction.options.getString("phrase")
 		
@@ -40,18 +44,9 @@ module.exports = {
 			await interaction.channel.send(text)
             await sleep(1000)
 		}
-	    
-	   	await interaction.channel.send("Done!")
-    },
-    options: [
-        {
-            "name": "phrase",
-            "description": "sidhartha mishra gone wild",
-            "type": 3,
-            "required": true
-        }
-
-    ]
+		
+		await interaction.channel.send("Done!")
+    }
 }
 
 async function sleep(ms) {

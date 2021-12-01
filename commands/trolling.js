@@ -1,21 +1,20 @@
 const fs = require('fs')
-const {CommandInteraction, Client, Message, MessageAttachment} = require("discord.js")
+const { MessageAttachment } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "trolling",
-    description: "we do a little trolling",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+        .setName("trolling")
+        .setDescription("we do a little trolling"),
+
     async execute(client, interaction) {
+        let trollingDir = './resources/trolling'
         interaction.reply(
             {
-                files: [new MessageAttachment('./trolling/' + fs.readdirSync('./trolling')[getRandomIntInclusive(0, fs.readdirSync('./trolling').length - 1)])]
+                files: [new MessageAttachment(trollingDir + '/' + fs.readdirSync(trollingDir)[getRandomIntInclusive(0, fs.readdirSync(trollingDir).length - 1)])]
             }
         )
-    },
-    options: []
+    }
 }
 
 function getRandomIntInclusive(min, max) {
