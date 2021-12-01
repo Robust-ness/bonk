@@ -1,43 +1,57 @@
-const { CommandInteraction, Client } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "repeat",
-    description: "repeat go burr",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+		.setName("repeat")
+		.setDescription("repeat go burr")
+		.addIntegerOption(i =>
+			i
+				.setName("i")
+				.setDescription("repeat amount")
+				.setRequired(true)
+		)
+		.addStringOption(phrase =>
+			phrase
+				.setName("phrase")
+				.setDescription("phrase to be repeated")
+				.setRequired(true)
+		),
+	
     async execute(client, interaction) {
 		let amount = interaction.options.getInteger("i")
-		let spamMessage = interaction.options.getString("phrase")
-        let send = ""
-        if (spamMessage.length * amount > 2000) {
-            interaction.reply("too long")
-            return
-        }
 		
-        for (let i = 0; i < amount; i++) {
-            send += spamMessage + " "
+        if (amount < 1 || amount > 20) {
+			interaction.reply({
+				ephemeral: true,
+				content: "'i' must be within 1..20"
+			})
         }
-		
-        interaction.reply({
-            content: "ok",
-            ephemeral: true
-        })
-        interaction.channel.send(send)
-    },
-    options: [
-		{
-			"name": "i",
-			"description": "repeat amount",
-			"type": 4,
-			"required": true
-		},
-        {
-            "name": "phrase",
-            "description": "phrase to be repeated",
-            "type": 3,
-            "required": true
-        }
-    ]
+		else {
+			let send = ""
+			let spamMessage = interaction.options.getString("phrase")
+
+			for(let i = 0; i < amount; i++) {
+				send += spamMessage + " "
+			}
+			
+			if(send.length > 2000) {
+				interaction.reply({
+					ephemeral: true,
+					content: `Fuck off`
+				})
+			}
+			else {
+				interaction.reply({
+					ephemeral: true,
+					content: `Repeating phrase ${amount} times`
+				})
+
+				await interaction.channel.send(send)
+			}
+		}
+    }
+}
+
+async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
 }

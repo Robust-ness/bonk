@@ -1,40 +1,45 @@
-const { CommandInteraction, Client } = require('discord.js')
+const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
-    name: "spam",
-    description: "spam go burr",
-    /**
-     * @param {CommandInteraction} interaction
-     * @param {Client} client
-     */
+    data: new SlashCommandBuilder()
+		.setName("spam")
+		.setDescription("spam go burr")
+		.addIntegerOption(i =>
+			i
+				.setName("i")
+				.setDescription("spam amount")
+				.setRequired(true)
+		)
+		.addStringOption(phrase =>
+			phrase
+				.setName("phrase")
+				.setDescription("phrase to be spammed")
+				.setRequired(true)
+		),
+	
     async execute(client, interaction) {
 		let amount = interaction.options.getInteger("i")
-        if (amount > 20) {
-            interaction.reply("no")
-            return
+		
+        if (amount < 1 || amount > 20) {
+			interaction.reply({
+				ephemeral: true,
+				content: "'i' must be within 1..20"
+			})
         }
-		let spamMessage = interaction.options.getString("phrase")
-        interaction.reply({ephemeral: true, content: "ok"})
-        for (let i = 0; i < amount; i++) {
-            await interaction.channel.send(spamMessage)
-            await sleep(2000)
-        }
-    },
-    options: [
-        {
-			"name": "i",
-			"description": "repeat amount",
-			"type": 4,
-			"required": true
-		},
-        {
-            "name": "phrase",
-            "description": "phrase to be repeated",
-            "type": 3,
-            "required": true
-        }
-
-    ]
+		else {
+			interaction.reply({
+				ephemeral: true,
+				content: `Spamming phrase ${amount} times`
+			})
+			
+			let spamMessage = interaction.options.getString("phrase")
+			
+			for (let i = 0; i < amount; i++) {
+				await interaction.channel.send(spamMessage)
+				await sleep(1000)
+			}
+		}
+    }
 }
 
 async function sleep(ms) {
