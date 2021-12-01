@@ -16,6 +16,11 @@ module.exports = {
 				.setName("reinvite")
 				.setDescription("kicks bot")
 		)
+		.addSubcommand(invite =>
+			invite
+				.setName("invite")
+				.setDescription("sends invite link")
+		)
 		.addSubcommand(restart =>
 			restart
 				.setName("restart")
@@ -33,6 +38,12 @@ module.exports = {
 
 			await sleep(1000)
 			await interaction.member.guild.leave()
+		}
+		else if(interaction.options.getSubcommand() === "invite") {
+			interaction.reply({
+				ephemeral: true,
+				content: `Here's the invite link:\n${inviteLink}`
+			})
 		}
 		else if(interaction.options.getSubcommand() === "reload") {
 			interaction.reply({
