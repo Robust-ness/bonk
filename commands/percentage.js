@@ -40,7 +40,7 @@ module.exports = {
 			}
 			
 			let percentString = percent + "%"
-			let text = phrase.replace("%", percentString)
+			let text = phrase.replace(/%/g, percentString)
 			await interaction.channel.send(text)
             await sleep(1000)
 		}
