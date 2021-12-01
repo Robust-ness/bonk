@@ -165,7 +165,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 			return;
 		}
 	}
-  if (user.id == "832755822001782814")
+  if (user.id == process.env.BOT_ID)
     return
   let count = await (await reaction.message.fetch())
     .reactions
@@ -217,7 +217,7 @@ client.on('ready', () => {
       'Authorization': `Bot ${process.env.BOT_TOKEN}`
     }}).then(res => {
       res.data.forEach(r => {
-        axios.delete(`https://discord.com/api/v8/applications/823668195650961469/commands/${r.id}`, {
+        axios.delete(`https://discord.com/api/v8/applications/${process.env.BOT_ID}/commands/${r.id}`, {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bot ${process.env.BOT_TOKEN}`
