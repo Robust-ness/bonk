@@ -1,5 +1,5 @@
 // BonkBot https://discord.com/api/oauth2/authorize?client_id=832755822001782814&permissions=8&scope=bot%20applications.commands
-// GecBot https://discord.com/api/oauth2/authorize?client_id=912589085380591657&permissions=0&scope=applications.commands%20bot
+// GecBot https://discord.com/api/oauth2/authorize?client_id=912589085380591657&permissions=8&scope=applications.commands%20bot
 
 const Discord = require('discord.js')
 const { Intents } = require('discord.js')
