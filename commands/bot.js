@@ -28,7 +28,7 @@ module.exports = {
 		),
 	
     async execute(client, interaction) {
-		let inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${process.env.BOT_ID}&permissions=0&scope=applications.commands%20bot`
+		let inviteLink = `https://discord.com/api/oauth2/authorize?client_id=${process.env.BOT_ID}&permissions=8&scope=applications.commands%20bot`
 		
 		if(interaction.options.getSubcommand() === "reinvite") {
 			interaction.reply({
