@@ -38,7 +38,10 @@ module.exports = {
                 let newKeyWord = String(interaction.options.getString("word")).trim().toLowerCase()
                 let origString = fs.readFileSync("resources/nerd-dictionary.txt").toString()
                 if (origString.search(newKeyWord) != -1) {
-                    interaction.reply(`Error: Word \`${newKeyWord}\` already exists.`)
+                    interaction.reply({
+                        content: `Error: Word \`${newKeyWord}\` already exists.`,
+                        ephemeral: true
+                    })
                     return
                 }
                 fs.writeFileSync("resources/nerd-dictionary.txt", origString + "," + newKeyWord)
