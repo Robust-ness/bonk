@@ -11,7 +11,8 @@ module.exports = {
         let benadrylDir = './resources/benadryl'
         interaction.reply(
             {
-                files: [new MessageAttachment(benadrylDir + '/' + fs.readdirSync(benadrylDir)[getRandomIntInclusive(0, fs.readdirSync(benadrylDir).length - 1)])]
+                files: [new MessageAttachment(benadrylDir + '/' + fs.readdirSync(benadrylDir)[getRandomIntInclusive(0, fs.readdirSync(benadrylDir).length - 1)])],
+                ephemeral: true
             }
         )
     }
