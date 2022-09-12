@@ -60,6 +60,9 @@ client.on('messageCreate', async msg => {
   if(msg.content.toLowerCase().includes("wap") || await isChannelString("wap", msg) || await isMentionString("wap", msg)) {
     msg.channel.send("WAP")
   }
+  if(msg.content.toLowerCase().includes("good bot") || await isChannelString("good bot", msg) || await isMentionString("good bot", msg)) {
+    msg.channel.send("Fuck you")
+  }
   if(msg.content.toLowerCase().includes("gec") || await isChannelString("gec", msg) || await isMentionString("gec", msg)) {
     msg.channel.send("GEC GEC GEC")
   }
