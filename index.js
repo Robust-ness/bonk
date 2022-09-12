@@ -66,6 +66,21 @@ client.on('messageCreate', async msg => {
   if(msg.content.toLowerCase().includes("gec") || await isChannelString("gec", msg) || await isMentionString("gec", msg)) {
     msg.channel.send("GEC GEC GEC")
   }
+  if(msg.content.toLowerCase().includes("snow") || await isChannelString("snow", msg) || await isMentionString("snow", msg)) {
+    msg.channel.send("And he called me")
+    msg.channel.send("Snowwoman :snowman:")
+    msg.channel.send(":joy:")
+    await sleep(500)
+    msg.channel.send("So I wrote back ✍")
+    msg.channel.send("(On Twitter :dove:)")  
+    msg.channel.send("Hey! 👋 Donald Trump 🍊 ")
+    msg.channel.send("The science 🔬 is on 🔛🔛🔛 my side")
+    await sleep(500)
+    msg.channel.send("And I'd like 😍 to see 👁👁 how 🤔 YOUR 👉 hair 💈")
+    msg.channel.send("WOULD FARE")
+    msg.channel.send("In a blizzard ❄❄❄❄❄❄❄❄❄❄❄❄!!!")
+    msg.channel.send("Mr Umbrella ☔☔ Man 👦!")
+  }
   if(msg.content.toLowerCase().match(nerdMatch)) {
     msg.channel.send('nerd')
   }
