@@ -12,7 +12,7 @@ module.exports = {
 				ephemeral: true,
 				content: "Fuck you"
 			})
-        let rand = getRandomIntInclusive(4,9)
+        let rand = getRandomIntInclusive(4,7)
         for(let i = 0; i < rand; i++) {
             let rand2 = getRandomIntInclusive(15, 30)
             let msg = ""
