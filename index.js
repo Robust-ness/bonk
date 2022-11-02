@@ -66,6 +66,9 @@ client.on('messageCreate', async msg => {
   if(msg.content.toLowerCase().includes("gec") || await isChannelString("gec", msg) || await isMentionString("gec", msg)) {
     msg.channel.send("GEC GEC GEC")
   }
+  if(msg.content.toLowerCase().includes("money") || await isChannelString("money", msg) || await isMentionString("money", msg)) {
+    msg.channel.send("The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you The IRS is watching you")
+  }
   if(msg.content.toLowerCase().includes("snow") || await isChannelString("snow", msg) || await isMentionString("snow", msg)) {
     msg.channel.send("And he called me")
     msg.channel.send("Snowwoman :snowman:")
