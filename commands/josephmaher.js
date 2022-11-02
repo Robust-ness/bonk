@@ -5,7 +5,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("josephmaher")
-        .setDescription("MMMMMMMM樂"),
+        .setDescription("MMMMMMMM😩"),
 
     async execute(client, interaction) {
         let rand = getRandomIntInclusive(2,6)
