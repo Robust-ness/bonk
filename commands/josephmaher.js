@@ -31,6 +31,11 @@ module.exports = {
             
             await interaction.channel.send(msg)
         }
+        
+        interaction.reply({
+				ephemeral: true,
+				content: "Fuck you"
+			})
     }
 }
 
