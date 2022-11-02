@@ -8,9 +8,13 @@ module.exports = {
         .setDescription("MMMMMMMM😩"),
 
     async execute(client, interaction) {
+	    interaction.reply({
+				ephemeral: true,
+				content: "Fuck you"
+			})
         let rand = getRandomIntInclusive(2,6)
         for(let i = 0; i < rand; i++) {
-            let rand2 = getRandomIntInclusive(15, 35)
+            let rand2 = getRandomIntInclusive(15, 30)
             let msg = ""
             
             for(let j = 0; j < rand2; j++) {
@@ -31,11 +35,6 @@ module.exports = {
             
             await interaction.channel.send(msg)
         }
-        
-        interaction.reply({
-				ephemeral: true,
-				content: "Fuck you"
-			})
     }
 }
 
