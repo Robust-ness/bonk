@@ -20,13 +20,13 @@ module.exports = {
             let rand3 = getRandomIntInclusive(1,4)
             
             for(let j = 0; j < rand3; j++) {
-                msg += ""
+                msg += "😩"
             }
             
             let rand4 = getRandomIntInclusive(1,4)
             
             for(let j = 0; j < rand4; j++) {
-                msg += "樂"
+                msg += "🤔"
             }
             
             await interaction.channel.send(msg)
