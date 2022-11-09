@@ -33,6 +33,12 @@ module.exports = {
                 msg += "🤔"
             }
             
+	    let rand5 = getRandomIntInclusive(0,1)
+	    
+	    if(rand5 == 1) {
+                await interaction.channel.send("AAAAAAAUUUUHHHHHGGGGGGG😩😩😤")
+	    }
+	
             await interaction.channel.send(msg)
         }
     }
