@@ -4,12 +4,12 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName("haunt")
         .setDescription("Go fuck yourself")
-		.addUserOption(user =>
+	.addUserOption(user =>
             user
                 .setName("user")
                 .setDescription("figure it the fuck out")
                 .setRequired(true)
-        ),
+        )
         .addStringOption(message =>
             message
                 .setName("message")
@@ -18,8 +18,8 @@ module.exports = {
         ),
 
     async execute(client, interaction) {
-		const user = interaction.options.getUser("user")
-		const message = interaction.options.getString("message")
+	const user = interaction.options.getUser("user")
+	const message = interaction.options.getString("message")
         user.send(message)
         interaction.reply({content: "Sent!", ephemeral: true})
     }
