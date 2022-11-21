@@ -43,7 +43,7 @@ module.exports = {
 			user.send(message)
 		}
 		
-		interaction.reply({content: `Sent <@${user.id}> ${message}`, ephemeral: true})
+		interaction.reply({content: `Sent <@${user.id}> "${message}"`, ephemeral: true})
 	}
     }
 }
