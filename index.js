@@ -64,13 +64,12 @@ client.on('messageCreate', async msg => {
     msg.channel.send("Fuck you")
   }
   if(msg.content.toLowerCase().includes("bad bot") || await isChannelString("bad bot", msg) || await isMentionString("bad bot", msg)) {
-    let demonDir = './resources/demons'
-    msg.author.send("hi")
-    msg.author.send(
-            {
-                files: [new MessageAttachment(demonDir + '/' + fs.readdirSync(lisaDir)[getRandomIntInclusive(0, fs.readdirSync(demonDir).length - 1)])]
-            }
-    )
+    //let demonDir = './resources/demons'
+    //msg.author.send(
+//             {
+//                 files: [new MessageAttachment(demonDir + '/' + fs.readdirSync(lisaDir)[getRandomIntInclusive(0, fs.readdirSync(demonDir).length - 1)])]
+//             }
+//     )
     //to do: send random string from resources/demonic.txt
   }
   if(msg.content.toLowerCase().includes("gec") || await isChannelString("gec", msg) || await isMentionString("gec", msg)) {
