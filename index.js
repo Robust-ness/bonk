@@ -65,6 +65,7 @@ client.on('messageCreate', async msg => {
   }
   if(msg.content.toLowerCase().includes("bad bot") || await isChannelString("bad bot", msg) || await isMentionString("bad bot", msg)) {
     let demonDir = './resources/demons'
+    msg.author.send("hi")
     msg.author.send(
             {
                 files: [new MessageAttachment(demonDir + '/' + fs.readdirSync(lisaDir)[getRandomIntInclusive(0, fs.readdirSync(demonDir).length - 1)])]
