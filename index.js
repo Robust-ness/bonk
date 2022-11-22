@@ -63,6 +63,15 @@ client.on('messageCreate', async msg => {
   if(msg.content.toLowerCase().includes("good bot") || await isChannelString("good bot", msg) || await isMentionString("good bot", msg)) {
     msg.channel.send("Fuck you")
   }
+  if(msg.content.toLowerCase().includes("bad bot") || await isChannelString("bad bot", msg) || await isMentionString("bad bot", msg)) {
+    let demonDir = './resources/demons'
+    msg.author.send(
+            {
+                files: [new MessageAttachment(demonDir + '/' + fs.readdirSync(lisaDir)[getRandomIntInclusive(0, fs.readdirSync(demonDir).length - 1)])]
+            }
+    )
+    //to do: send random string from resources/demonic.txt
+  }
   if(msg.content.toLowerCase().includes("gec") || await isChannelString("gec", msg) || await isMentionString("gec", msg)) {
     msg.channel.send("GEC GEC GEC")
   }
