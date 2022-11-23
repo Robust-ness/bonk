@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders')
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName("alakazam")
+		.setName("poof")
 		.setDescription("poof!")
 		.addIntegerOption(i =>
 			i
